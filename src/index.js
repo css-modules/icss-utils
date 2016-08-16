@@ -14,5 +14,6 @@ export function replaceAll(replacements, text) {
 
 export default (css, translations) => {
   css.walkDecls(decl => decl.value = replaceAll(translations, decl.value))
+  css.walkRules(rule => rule.selector = replaceAll(translations, rule.selector))
   css.walkAtRules('media', atRule => atRule.params = replaceAll(translations, atRule.params))
 }
