@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/css-modules/icss-utils.svg)](https://travis-ci.org/css-modules/icss-utils)
 
-# ICSS Utils 
+# ICSS Utils
 
 ## replaceSymbols
 
@@ -10,9 +10,10 @@ This is broken into its own module in case the behaviour needs to be replicated 
 (i.e. [CSS Modules Values](https://github.com/css-modules/postcss-modules-values))
 
 ```js
-import { replaceSymbols, replaceValueSymbols } from "icss-utils"
-replaceSymbols(css, replacements)
-replaceValueSymbols(string, replacements)
+import { replaceSymbols, replaceValueSymbols } from "icss-utils";
+
+replaceSymbols(css, replacements);
+replaceValueSymbols(string, replacements);
 ```
 
 Where:
@@ -30,24 +31,28 @@ A symbol is a string of alphanumeric, `-` or `_` characters. A replacement can b
 Extracts and remove (if removeRules is equal true) from PostCSS tree `:import` and `:export` statements.
 
 ```js
-import postcss from 'postcss';
-import { extractICSS } from 'icss-utils'
+import postcss from "postcss";
+import { extractICSS } from "icss-utils";
 
 const css = postcss.parse(`
-  :import(colors) {
+  :import("colors.css" screen and (orientation:landscape)) {
     a: b;
   }
   :export {
     c: d;
   }
-`)
+`);
 
-extractICSS(css)
+extractICSS(css);
 /*
   {
     icssImports: {
-      colors: {
-        a: 'b'
+      '"colors.css" screen and (orientation:landscape)': {
+        path: "colors.css",
+        extra: "screen and (orientation:landscape)",
+        tokens: {
+          a: 'b'
+        }
       }
     },
     icssExports: {
@@ -62,13 +67,16 @@ extractICSS(css)
 Converts icss imports and exports definitions to postcss ast
 
 ```js
-createICSSRules({
-  colors: {
-    a: 'b'
+createICSSRules(
+  {
+    '"colors.css"': {
+      a: "b"
+    }
+  },
+  {
+    c: "d"
   }
-}, {
-  c: 'd'
-})
+);
 ```
 
 ## License
@@ -76,4 +84,5 @@ createICSSRules({
 ISC
 
 ---
-Glen Maddern and Bogdan Chadkin, 2015.
+
+Glen Maddern, Bogdan Chadkin and Evilebottnawi 2015-present.

@@ -1,8 +1,8 @@
 import postcss from "postcss";
 
 const createImports = imports => {
-  return Object.keys(imports).map(path => {
-    const aliases = imports[path];
+  return Object.keys(imports).map(token => {
+    const aliases = imports[token];
     const declarations = Object.keys(aliases).map(key =>
       postcss.decl({
         prop: key,
@@ -10,12 +10,15 @@ const createImports = imports => {
         raws: { before: "\n  " }
       })
     );
-    return postcss
-      .rule({
-        selector: `:import('${path}')`,
-        raws: { after: "\n" }
-      })
-      .append(declarations);
+    const hasDeclarations = declarations.length > 0;
+    const rule = postcss.rule({
+      selector: `:import(${token})`,
+      raws: { after: hasDeclarations ? "\n" : "" }
+    });
+    if (hasDeclarations) {
+      rule.append(declarations);
+    }
+    return rule;
   });
 };
 

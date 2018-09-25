@@ -1,4 +1,3 @@
-/* eslint-env jest */
 import postcss from "postcss";
 import { replaceSymbols } from "../src";
 
@@ -34,6 +33,22 @@ test("should change media queries", () => {
       small: "(max-width: 599px)"
     })
   ).toEqual("@media (max-width: 599px) { .foo { color: red } }");
+});
+
+test("should change supports", () => {
+  expect(
+    replace("@supports transform { .foo { color: red } }", {
+      transform: "(transform-origin: 5% 5%)"
+    })
+  ).toEqual("@supports (transform-origin: 5% 5%) { .foo { color: red } }");
+});
+
+test("should change media queries (uppercase)", () => {
+  expect(
+    replace("@MEDIA small { .foo { color: red } }", {
+      small: "(max-width: 599px)"
+    })
+  ).toEqual("@MEDIA (max-width: 599px) { .foo { color: red } }");
 });
 
 test("should replace class names and id in selectors", () => {

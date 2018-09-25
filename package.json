@@ -1,6 +1,6 @@
 {
   "name": "icss-utils",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "ICSS utils for postcss ast",
   "main": "lib/index.js",
   "files": [
@@ -9,7 +9,6 @@
   "scripts": {
     "build": "babel --out-dir lib src",
     "test": "jest --coverage",
-    "precommit": "lint-staged",
     "prepublish": "yarn test && yarn run build"
   },
   "lint-staged": {
@@ -20,25 +19,32 @@
     ]
   },
   "eslintConfig": {
+    "parser": "babel-eslint",
     "parserOptions": {
       "sourceType": "module"
     },
     "env": {
-      "es6": true
+      "es6": true,
+      "jest": true
     },
     "extends": "eslint:recommended"
   },
   "babel": {
     "presets": [
       [
-        "env",
+        "@babel/preset-env",
         {
           "targets": {
-            "node": 4
+            "node": 6
           }
         }
       ]
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "repository": {
     "type": "git",
@@ -57,16 +63,19 @@
   },
   "homepage": "https://github.com/css-modules/icss-utils#readme",
   "dependencies": {
-    "postcss": "^6.0.2"
+    "postcss": "^7.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-jest": "^20.0.3",
-    "babel-preset-env": "^1.5.2",
-    "eslint": "^4.0.0",
-    "husky": "^0.13.4",
-    "jest": "^20.0.4",
-    "lint-staged": "^3.6.1",
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.0",
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.6.0",
+    "husky": "^1.0.0",
+    "jest": "^23.6.0",
+    "lint-staged": "^7.3.0",
     "prettier": "^1.4.4"
   }
 }

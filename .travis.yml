@@ -1,5 +1,31 @@
+sudo: false
+
+git:
+  depth: 10
+
+branches:
+  only:
+    - master
+
 language: node_js
-node_js:
-  - "4"
-  - "6"
-  - "node"
+
+# cache node modules
+cache:
+  directories:
+    - $HOME/.npm
+    - node_modules
+
+matrix:
+  fast_finish: true
+  include:
+    - node_js: '10'
+      script: npm run test -- --no-coverage
+    - node_js: '8'
+      script: npm run test -- --no-coverage
+    - node_js: '6'
+      script: npm run test -- --no-coverage
+
+before_install:
+  - npm install -g npm@latest
+  - node --version
+  - npm --version
