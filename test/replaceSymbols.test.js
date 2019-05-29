@@ -17,8 +17,10 @@ test("not change property names", () => {
   );
 });
 
-test("not change non-media at-rules", () => {
-  expect(replace("@import url;", { url: "otherUrl" })).toEqual("@import url;");
+test("change non-media at-rules", () => {
+  expect(replace("@import url;", { url: "otherUrl" })).toEqual(
+    "@import otherUrl;"
+  );
 });
 
 test("change declaration values", () => {
