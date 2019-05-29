@@ -9,11 +9,7 @@ const replaceSymbols = (css, replacements) => {
         node.selector.toString(),
         replacements
       );
-    } else if (
-      node.type === "atrule" &&
-      node.params &&
-      ["media", "supports"].includes(node.name.toLowerCase())
-    ) {
+    } else if (node.type === "atrule" && node.params) {
       node.params = replaceValueSymbols(node.params.toString(), replacements);
     }
   });
