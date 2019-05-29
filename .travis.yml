@@ -17,7 +17,7 @@ cache:
 
 matrix:
   include:
-    - node_js: "11"
+    - node_js: "12"
       env: JOB_PART=pretest
     - node_js: "6"
       env: JOB_PART=test
@@ -25,7 +25,7 @@ matrix:
       env: JOB_PART=test
     - node_js: "10"
       env: JOB_PART=test
-    - node_js: "11"
+    - node_js: "12"
       env: JOB_PART=test
 
 before_script:
