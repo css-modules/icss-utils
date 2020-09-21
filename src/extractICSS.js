@@ -1,9 +1,9 @@
 const importPattern = /^:import\(("[^"]*"|'[^']*'|[^"']+)\)$/;
 
-const getDeclsObject = rule => {
+const getDeclsObject = (rule) => {
   const object = {};
 
-  rule.walkDecls(decl => {
+  rule.walkDecls((decl) => {
     const before = decl.raws.before ? decl.raws.before.trim() : "";
 
     object[before + decl.prop] = decl.value;
@@ -16,7 +16,7 @@ const extractICSS = (css, removeRules = true) => {
   const icssImports = {};
   const icssExports = {};
 
-  css.each(node => {
+  css.each((node) => {
     if (node.type === "rule") {
       if (node.selector.slice(0, 7) === ":import") {
         const matches = importPattern.exec(node.selector);
@@ -48,4 +48,4 @@ const extractICSS = (css, removeRules = true) => {
   return { icssImports, icssExports };
 };
 
-export default extractICSS;
+module.exports = extractICSS;

@@ -1,7 +1,7 @@
-import replaceValueSymbols from "./replaceValueSymbols.js";
+const replaceValueSymbols = require("./replaceValueSymbols.js");
 
 const replaceSymbols = (css, replacements) => {
-  css.walk(node => {
+  css.walk((node) => {
     if (node.type === "decl" && node.value) {
       node.value = replaceValueSymbols(node.value.toString(), replacements);
     } else if (node.type === "rule" && node.selector) {
@@ -15,4 +15,4 @@ const replaceSymbols = (css, replacements) => {
   });
 };
 
-export default replaceSymbols;
+module.exports = replaceSymbols;

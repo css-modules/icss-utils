@@ -19,4 +19,4 @@ const replaceValueSymbols = (value, replacements) => {
   return value;
 };
 
-export default replaceValueSymbols;
+module.exports = replaceValueSymbols;

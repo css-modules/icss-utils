@@ -1,5 +1,5 @@
-import postcss from "postcss";
-import { replaceSymbols } from "../src";
+const postcss = require("postcss");
+const { replaceSymbols } = require("../src");
 
 const replace = (input, replacements) => {
   const ast = postcss.parse(input);
@@ -32,7 +32,7 @@ test("change declaration values", () => {
 test("should change media queries", () => {
   expect(
     replace("@media small { .foo { color: red } }", {
-      small: "(max-width: 599px)"
+      small: "(max-width: 599px)",
     })
   ).toEqual("@media (max-width: 599px) { .foo { color: red } }");
 });
@@ -40,7 +40,7 @@ test("should change media queries", () => {
 test("should change media queries uppercase", () => {
   expect(
     replace("@MEDIA small { .foo { color: red } }", {
-      small: "(max-width: 599px)"
+      small: "(max-width: 599px)",
     })
   ).toEqual("@MEDIA (max-width: 599px) { .foo { color: red } }");
 });
@@ -48,7 +48,7 @@ test("should change media queries uppercase", () => {
 test("should change supports", () => {
   expect(
     replace("@supports dgvalue { .foo { color: red } }", {
-      dgvalue: "(display: grid)"
+      dgvalue: "(display: grid)",
     })
   ).toEqual("@supports (display: grid) { .foo { color: red } }");
 });
@@ -56,7 +56,7 @@ test("should change supports", () => {
 test("should change supports (uppercase)", () => {
   expect(
     replace("@SUPPORTS dgvalue { .foo { color: red } }", {
-      dgvalue: "(display: grid)"
+      dgvalue: "(display: grid)",
     })
   ).toEqual("@SUPPORTS (display: grid) { .foo { color: red } }");
 });
@@ -67,7 +67,7 @@ test("should replace class names and id in selectors", () => {
       className1: "__className",
       id1: "__id",
       "className1.className2": "__badClass",
-      "id1#id2": "__badId"
+      "id1#id2": "__badId",
     })
   ).toEqual(".__className.className2 #__id#id2 { color: red }");
 });

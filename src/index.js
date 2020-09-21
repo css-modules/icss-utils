@@ -1,4 +1,11 @@
-export { default as replaceValueSymbols } from "./replaceValueSymbols.js";
-export { default as replaceSymbols } from "./replaceSymbols.js";
-export { default as extractICSS } from "./extractICSS.js";
-export { default as createICSSRules } from "./createICSSRules.js";
+const replaceValueSymbols = require("./replaceValueSymbols.js");
+const replaceSymbols = require("./replaceSymbols.js");
+const extractICSS = require("./extractICSS.js");
+const createICSSRules = require("./createICSSRules.js");
+
+module.exports = {
+  replaceValueSymbols,
+  replaceSymbols,
+  extractICSS,
+  createICSSRules,
+};

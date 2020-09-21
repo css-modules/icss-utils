@@ -1,36 +1,13 @@
-sudo: false
-
-git:
-  depth: 10
-
-branches:
-  only:
-    - master
-    - next
-
 language: node_js
 
-cache:
-  yarn: true
-  directories:
-    - node_modules
+node_js:
+  - "10"
+  - "12"
+  - "14"
 
-matrix:
-  include:
-    - node_js: "12"
-      env: JOB_PART=pretest
-    - node_js: "6"
-      env: JOB_PART=test
-    - node_js: "8"
-      env: JOB_PART=test
-    - node_js: "10"
-      env: JOB_PART=test
-    - node_js: "12"
-      env: JOB_PART=test
+script: yarn ci
 
-before_script:
-  - node --version
-  - yarn --version
-
-script:
-  - yarn $JOB_PART
+after_success:
+  - cat ./coverage/lcov.info | node_modules/.bin/coveralls --verbose
+  - cat ./coverage/coverage.json | node_modules/codecov.io/bin/codecov.io.js
+  - rm -rf ./coverage

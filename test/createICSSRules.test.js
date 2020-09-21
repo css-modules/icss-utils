@@ -1,10 +1,10 @@
-import postcss from "postcss";
-import { createICSSRules } from "../src";
+const postcss = require("postcss");
+const { createICSSRules } = require("../src");
 
 const run = (imports, exports) => {
   return postcss
     .root()
-    .append(createICSSRules(imports, exports))
+    .append(createICSSRules(imports, exports, postcss))
     .toString();
 };
 
@@ -12,7 +12,7 @@ test("create empty :import statement", () => {
   expect(
     run(
       {
-        "path/file": {}
+        "path/file": {},
       },
       {}
     )
@@ -24,8 +24,8 @@ test("create :import statement", () => {
     run(
       {
         "path/file": {
-          e: "f"
-        }
+          e: "f",
+        },
       },
       {}
     )
@@ -38,7 +38,7 @@ test("create :export statement", () => {
       {},
       {
         a: "b",
-        c: "d"
+        c: "d",
       }
     )
   ).toEqual(":export {\n  a: b;\n  c: d\n}");
@@ -49,11 +49,11 @@ test("create :import and :export", () => {
     run(
       {
         colors: {
-          a: "b"
-        }
+          a: "b",
+        },
       },
       {
-        c: "d"
+        c: "d",
       }
     )
   ).toEqual(":import('colors') {\n  a: b\n}\n:export {\n  c: d\n}");
