@@ -66,12 +66,15 @@ Converts icss imports and exports definitions to postcss ast
 createICSSRules(
   {
     colors: {
-      a: "b"
-    }
+      a: "b",
+    },
   },
   {
-    c: "d"
-  }
+    c: "d",
+  },
+  // Need pass `rule` and `decl` from postcss
+  // Please look at `Step 4` https://evilmartians.com/chronicles/postcss-8-plugin-migration
+  postcss
 );
 ```
 

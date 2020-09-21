@@ -1,13 +1,11 @@
-import postcss from "postcss";
-
-const createImports = imports => {
-  return Object.keys(imports).map(path => {
+const createImports = (imports, postcss) => {
+  return Object.keys(imports).map((path) => {
     const aliases = imports[path];
-    const declarations = Object.keys(aliases).map(key =>
+    const declarations = Object.keys(aliases).map((key) =>
       postcss.decl({
         prop: key,
         value: aliases[key],
-        raws: { before: "\n  " }
+        raws: { before: "\n  " },
       })
     );
 
@@ -15,7 +13,7 @@ const createImports = imports => {
 
     const rule = postcss.rule({
       selector: `:import('${path}')`,
-      raws: { after: hasDeclarations ? "\n" : "" }
+      raws: { after: hasDeclarations ? "\n" : "" },
     });
 
     if (hasDeclarations) {
@@ -26,12 +24,12 @@ const createImports = imports => {
   });
 };
 
-const createExports = exports => {
-  const declarations = Object.keys(exports).map(key =>
+const createExports = (exports, postcss) => {
+  const declarations = Object.keys(exports).map((key) =>
     postcss.decl({
       prop: key,
       value: exports[key],
-      raws: { before: "\n  " }
+      raws: { before: "\n  " },
     })
   );
 
@@ -42,16 +40,16 @@ const createExports = exports => {
   const rule = postcss
     .rule({
       selector: `:export`,
-      raws: { after: "\n" }
+      raws: { after: "\n" },
     })
     .append(declarations);
 
   return [rule];
 };
 
-const createICSSRules = (imports, exports) => [
-  ...createImports(imports),
-  ...createExports(exports)
+const createICSSRules = (imports, exports, postcss) => [
+  ...createImports(imports, postcss),
+  ...createExports(exports, postcss),
 ];
 
-export default createICSSRules;
+module.exports = createICSSRules;

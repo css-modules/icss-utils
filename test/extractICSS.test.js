@@ -1,7 +1,7 @@
-import postcss from "postcss";
-import { extractICSS } from "../src";
+const postcss = require("postcss");
+const { extractICSS } = require("../src");
 
-const runExtract = input => extractICSS(postcss.parse(input));
+const runExtract = (input) => extractICSS(postcss.parse(input));
 const runCSS = (input, removeRules) => {
   const css = postcss.parse(input);
   extractICSS(css, removeRules);
@@ -11,27 +11,27 @@ const runCSS = (input, removeRules) => {
 test("extract :import statements with identifier", () => {
   expect(runExtract(":import(col.ors-2) {}")).toEqual({
     icssImports: {
-      "col.ors-2": {}
+      "col.ors-2": {},
     },
-    icssExports: {}
+    icssExports: {},
   });
 });
 
 test("extract :import statements with single quoted path", () => {
   expect(runExtract(`:import('./colors.css') {}`)).toEqual({
     icssImports: {
-      "./colors.css": {}
+      "./colors.css": {},
     },
-    icssExports: {}
+    icssExports: {},
   });
 });
 
 test("extract manually added :import", () => {
   expect(runExtract(':import("./colors.css") {}')).toEqual({
     icssImports: {
-      "./colors.css": {}
+      "./colors.css": {},
     },
-    icssExports: {}
+    icssExports: {},
   });
 });
 
@@ -42,10 +42,10 @@ test("not extract :import with values", () => {
     icssImports: {
       "./colors.css": {
         i__blue: "blue",
-        i__red: "red"
-      }
+        i__red: "red",
+      },
     },
-    icssExports: {}
+    icssExports: {},
   });
 });
 
@@ -61,17 +61,17 @@ test("extract :import statements manually created in postcss", () => {
     icssImports: {
       "./colors.css": {
         i__blue: "blue",
-        i__red: "red"
-      }
+        i__red: "red",
+      },
     },
-    icssExports: {}
+    icssExports: {},
   });
 });
 
 test("not extract invalid :import", () => {
   expect(runExtract(":import(\\'./colors.css) {}")).toEqual({
     icssImports: {},
-    icssExports: {}
+    icssExports: {},
   });
 });
 
@@ -80,8 +80,8 @@ test("extract :export", () => {
     icssImports: {},
     icssExports: {
       blue: "i__blue",
-      red: "i__red"
-    }
+      red: "i__red",
+    },
   });
 });
 
@@ -97,12 +97,12 @@ test("extract properties with underscore", () => {
   expect(runExtract(":import(colors) {_a: b} :export { _c: d}")).toEqual({
     icssImports: {
       colors: {
-        _a: "b"
-      }
+        _a: "b",
+      },
     },
     icssExports: {
-      _c: "d"
-    }
+      _c: "d",
+    },
   });
 });
 
