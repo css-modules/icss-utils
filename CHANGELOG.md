@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.0.0] - 2020-10-12
+
+### BREAKING CHANGE
+
+- minimum supported `postcss` version is `^8.1.0`
+
+### Fixes
+
+- minimum supported `Node.js` version is `^10 || ^12 || >= 14`
+- compatibility with PostCSS 8
+
 ## [5.0.0-rc.0] - 2020-09-21
 
 ### BREAKING CHANGE

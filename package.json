@@ -1,10 +1,10 @@
 {
   "name": "icss-utils",
-  "version": "5.0.0-rc.0",
+  "version": "5.0.0",
   "description": "ICSS utils for postcss ast",
   "main": "src/index.js",
   "engines": {
-    "node": ">= 10.13.0 || >= 12.13.0 || >= 14"
+    "node": "^10 || ^12 || >= 14"
   },
   "files": [
     "src"
@@ -39,13 +39,14 @@
   "devDependencies": {
     "coveralls": "^3.1.0",
     "eslint": "^7.9.0",
+    "eslint-config-prettier": "^6.12.0",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
     "lint-staged": "^10.4.0",
-    "postcss": "^8.0.7",
+    "postcss": "^8.1.0",
     "prettier": "^2.1.2"
   },
   "peerDependencies": {
-    "postcss": "^8.0.0"
+    "postcss": "^8.1.0"
   }
 }
