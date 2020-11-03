@@ -1,51 +1,76 @@
-const importPattern = /^:import\(("[^"]*"|'[^']*'|[^"']+)\)$/;
+const importPattern = /^:import\(("[^"]*"|'[^']*'|[^"']+)\)$/
+const balancedQuotes = /^("[^"]*"|'[^']*'|[^"']+)$/
 
 const getDeclsObject = (rule) => {
-  const object = {};
+  const object = {}
 
   rule.walkDecls((decl) => {
-    const before = decl.raws.before ? decl.raws.before.trim() : "";
+    const before = decl.raws.before ? decl.raws.before.trim() : ''
 
-    object[before + decl.prop] = decl.value;
-  });
+    object[before + decl.prop] = decl.value
+  })
 
-  return object;
-};
+  return object
+}
+/**
+ *
+ * @param {string} css
+ * @param {boolean} removeRules
+ * @param {auto|pseudo|atrule} mode
+ */
+const extractICSS = (css, removeRules = true, mode = 'auto') => {
+  const icssImports = {}
+  const icssExports = {}
 
-const extractICSS = (css, removeRules = true) => {
-  const icssImports = {};
-  const icssExports = {};
+  function addImports(node, path) {
+    const unquoted = path.replace(/'|"/g, '')
+    icssImports[unquoted] = Object.assign(
+      icssImports[unquoted] || {},
+      getDeclsObject(node),
+    )
+
+    if (removeRules) {
+      node.remove()
+    }
+  }
+
+  function addExports(node) {
+    Object.assign(icssExports, getDeclsObject(node))
+    if (removeRules) {
+      node.remove()
+    }
+  }
 
   css.each((node) => {
-    if (node.type === "rule") {
-      if (node.selector.slice(0, 7) === ":import") {
-        const matches = importPattern.exec(node.selector);
+    if (node.type === 'rule' && mode !== 'atrule') {
+      if (node.selector.slice(0, 7) === ':import') {
+        const matches = importPattern.exec(node.selector)
 
         if (matches) {
-          const path = matches[1].replace(/'|"/g, "");
-
-          icssImports[path] = Object.assign(
-            icssImports[path] || {},
-            getDeclsObject(node)
-          );
-
-          if (removeRules) {
-            node.remove();
-          }
+          addImports(node, matches[1])
         }
       }
 
-      if (node.selector === ":export") {
-        Object.assign(icssExports, getDeclsObject(node));
-
-        if (removeRules) {
-          node.remove();
-        }
+      if (node.selector === ':export') {
+        addExports(node)
       }
     }
-  });
 
-  return { icssImports, icssExports };
-};
+    if (node.type === 'atrule' && mode !== 'pseudo') {
+      if (node.name === 'icss-import') {
+        const matches = balancedQuotes.exec(node.params.trim())
 
-module.exports = extractICSS;
+        if (matches) {
+          addImports(node, matches[1])
+        }
+      }
+      if (node.name === 'icss-export') {
+        addExports(node)
+      }
+    }
+  })
+
+  return { icssImports, icssExports }
+}
+
+module.exports = extractICSS

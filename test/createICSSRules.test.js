@@ -1,60 +1,115 @@
-const postcss = require("postcss");
-const { createICSSRules } = require("../src");
+const postcss = require('postcss')
+const { createICSSRules } = require('../src')
 
-const run = (imports, exports) => {
+const run = (imports, exports, asAtRule) => {
   return postcss
     .root()
-    .append(createICSSRules(imports, exports, postcss))
-    .toString();
-};
+    .append(createICSSRules(imports, exports, postcss, asAtRule))
+    .toString()
+}
 
-test("create empty :import statement", () => {
+test('create empty :import statement', () => {
   expect(
     run(
       {
-        "path/file": {},
+        'path/file': {},
       },
-      {}
-    )
-  ).toEqual(":import('path/file') {}");
-});
+      {},
+    ),
+  ).toEqual(":import('path/file') {}")
+})
 
-test("create :import statement", () => {
+test('create :import statement', () => {
   expect(
     run(
       {
-        "path/file": {
-          e: "f",
+        'path/file': {
+          e: 'f',
         },
       },
-      {}
-    )
-  ).toEqual(":import('path/file') {\n  e: f\n}");
-});
+      {},
+    ),
+  ).toEqual(":import('path/file') {\n  e: f\n}")
+})
 
-test("create :export statement", () => {
+test('create :export statement', () => {
   expect(
     run(
       {},
       {
-        a: "b",
-        c: "d",
-      }
-    )
-  ).toEqual(":export {\n  a: b;\n  c: d\n}");
-});
+        a: 'b',
+        c: 'd',
+      },
+    ),
+  ).toEqual(':export {\n  a: b;\n  c: d\n}')
+})
 
-test("create :import and :export", () => {
+test('create :import and :export', () => {
   expect(
     run(
       {
         colors: {
-          a: "b",
+          a: 'b',
         },
       },
       {
-        c: "d",
-      }
-    )
-  ).toEqual(":import('colors') {\n  a: b\n}\n:export {\n  c: d\n}");
-});
+        c: 'd',
+      },
+    ),
+  ).toEqual(":import('colors') {\n  a: b\n}\n:export {\n  c: d\n}")
+})
+
+test('create empty @icss-import statement', () => {
+  expect(
+    run(
+      {
+        'path/file': {},
+      },
+      {},
+      true,
+    ),
+  ).toEqual("@icss-import 'path/file'")
+})
+
+test('create @icss-import statement', () => {
+  expect(
+    run(
+      {
+        'path/file': {
+          e: 'f',
+        },
+      },
+      {},
+      true,
+    ),
+  ).toEqual("@icss-import 'path/file' {\n  e: f\n}")
+})
+
+test('create @icss-export statement', () => {
+  expect(
+    run(
+      {},
+      {
+        a: 'b',
+        c: 'd',
+      },
+      true,
+    ),
+  ).toEqual('@icss-export {\n  a: b;\n  c: d\n}')
+})
+
+test('create @icss-import and @icss-export', () => {
+  expect(
+    run(
+      {
+        colors: {
+          a: 'b',
+        },
+      },
+      {
+        c: 'd',
+      },
+      true,
+    ),
+  ).toEqual("@icss-import 'colors' {\n  a: b\n}\n@icss-export {\n  c: d\n}")
+})

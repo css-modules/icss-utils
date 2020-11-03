@@ -10,10 +10,10 @@ This is broken into its own module in case the behaviour needs to be replicated 
 (i.e. [CSS Modules Values](https://github.com/css-modules/postcss-modules-values))
 
 ```js
-import { replaceSymbols, replaceValueSymbols } from "icss-utils";
+import { replaceSymbols, replaceValueSymbols } from 'icss-utils'
 
-replaceSymbols(css, replacements);
-replaceValueSymbols(string, replacements);
+replaceSymbols(css, replacements)
+replaceValueSymbols(string, replacements)
 ```
 
 Where:
@@ -26,13 +26,13 @@ A symbol is a string of alphanumeric, `-` or `_` characters. A replacement can b
 - In the value of a declaration, i.e. `color: my_symbol;` or `box-shadow: 0 0 blur spread shadow-color`
 - In a media expression i.e. `@media small {}` or `@media screen and not-large {}`
 
-## extractICSS(css, removeRules = true)
+## extractICSS(css, removeRules = true, mode = 'auto')
 
-Extracts and remove (if removeRules is equal true) from PostCSS tree `:import` and `:export` statements.
+Extracts and remove (if removeRules is equal true) from PostCSS tree `:import`, `@icss-import`, `:export` and `@icss-export` statements.
 
 ```js
-import postcss from "postcss";
-import { extractICSS } from "icss-utils";
+import postcss from 'postcss'
+import { extractICSS } from 'icss-utils'
 
 const css = postcss.parse(`
   :import(colors) {
@@ -41,9 +41,9 @@ const css = postcss.parse(`
   :export {
     c: d;
   }
-`);
+`)
 
-extractICSS(css);
+extractICSS(css)
 /*
   {
     icssImports: {
@@ -58,7 +58,10 @@ extractICSS(css);
 */
 ```
 
-## createICSSRules(icssImports, icssExports)
+By default both the pseudo and at-rule form of the import and export statements
+will be removed. Pass the `mode` option to limit to only one type.
+
+## createICSSRules(icssImports, icssExports, asAtRule = false)
 
 Converts icss imports and exports definitions to postcss ast
 
@@ -66,17 +69,21 @@ Converts icss imports and exports definitions to postcss ast
 createICSSRules(
   {
     colors: {
-      a: "b",
+      a: 'b',
     },
   },
   {
-    c: "d",
+    c: 'd',
   },
   // Need pass `rule` and `decl` from postcss
   // Please look at `Step 4` https://evilmartians.com/chronicles/postcss-8-plugin-migration
-  postcss
-);
+  postcss,
+)
 ```
+
+By default it will create pseudo selector rules (`:import` and `:export`). Pass
+`true` for `asAtRule` to instead generate `@icss-import` and `@icss-export`, which
+may be more resilient to post processing by other tools.
 
 ## License
 
