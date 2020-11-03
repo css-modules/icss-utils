@@ -10,10 +10,10 @@ This is broken into its own module in case the behaviour needs to be replicated 
 (i.e. [CSS Modules Values](https://github.com/css-modules/postcss-modules-values))
 
 ```js
-import { replaceSymbols, replaceValueSymbols } from 'icss-utils'
+import { replaceSymbols, replaceValueSymbols } from "icss-utils";
 
-replaceSymbols(css, replacements)
-replaceValueSymbols(string, replacements)
+replaceSymbols(css, replacements);
+replaceValueSymbols(string, replacements);
 ```
 
 Where:
@@ -31,8 +31,8 @@ A symbol is a string of alphanumeric, `-` or `_` characters. A replacement can b
 Extracts and remove (if removeRules is equal true) from PostCSS tree `:import`, `@icss-import`, `:export` and `@icss-export` statements.
 
 ```js
-import postcss from 'postcss'
-import { extractICSS } from 'icss-utils'
+import postcss from "postcss";
+import { extractICSS } from "icss-utils";
 
 const css = postcss.parse(`
   :import(colors) {
@@ -41,9 +41,9 @@ const css = postcss.parse(`
   :export {
     c: d;
   }
-`)
+`);
 
-extractICSS(css)
+extractICSS(css);
 /*
   {
     icssImports: {
@@ -69,16 +69,16 @@ Converts icss imports and exports definitions to postcss ast
 createICSSRules(
   {
     colors: {
-      a: 'b',
+      a: "b",
     },
   },
   {
-    c: 'd',
+    c: "d",
   },
   // Need pass `rule` and `decl` from postcss
   // Please look at `Step 4` https://evilmartians.com/chronicles/postcss-8-plugin-migration
-  postcss,
-)
+  postcss
+);
 ```
 
 By default it will create pseudo selector rules (`:import` and `:export`). Pass
