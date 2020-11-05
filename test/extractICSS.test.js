@@ -156,7 +156,7 @@ test("not process at-rules when mode is pseudo", () => {
         @icss-export { d: d}
 
       `,
-      "pseudo"
+      "rule"
     )
   ).toEqual({
     icssImports: {

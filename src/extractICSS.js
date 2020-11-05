@@ -16,7 +16,7 @@ const getDeclsObject = (rule) => {
  *
  * @param {string} css
  * @param {boolean} removeRules
- * @param {auto|pseudo|atrule} mode
+ * @param {auto|rule|atrule} mode
  */
 const extractICSS = (css, removeRules = true, mode = "auto") => {
   const icssImports = {};
@@ -56,7 +56,7 @@ const extractICSS = (css, removeRules = true, mode = "auto") => {
       }
     }
 
-    if (node.type === "atrule" && mode !== "pseudo") {
+    if (node.type === "atrule" && mode !== "rule") {
       if (node.name === "icss-import") {
         const matches = balancedQuotes.exec(node.params.trim());
 

@@ -1,10 +1,10 @@
 const postcss = require("postcss");
 const { createICSSRules } = require("../src");
 
-const run = (imports, exports, asAtRule) => {
+const run = (imports, exports, mode) => {
   return postcss
     .root()
-    .append(createICSSRules(imports, exports, postcss, asAtRule))
+    .append(createICSSRules(imports, exports, postcss, mode))
     .toString();
 };
 
@@ -66,7 +66,7 @@ test("create empty @icss-import statement", () => {
         "path/file": {},
       },
       {},
-      true
+      "atrule"
     )
   ).toEqual("@icss-import 'path/file'");
 });
@@ -80,7 +80,7 @@ test("create @icss-import statement", () => {
         },
       },
       {},
-      true
+      "atrule"
     )
   ).toEqual("@icss-import 'path/file' {\n  e: f\n}");
 });
@@ -93,7 +93,7 @@ test("create @icss-export statement", () => {
         a: "b",
         c: "d",
       },
-      true
+      "atrule"
     )
   ).toEqual("@icss-export {\n  a: b;\n  c: d\n}");
 });
@@ -109,7 +109,7 @@ test("create @icss-import and @icss-export", () => {
       {
         c: "d",
       },
-      true
+      "atrule"
     )
   ).toEqual("@icss-import 'colors' {\n  a: b\n}\n@icss-export {\n  c: d\n}");
 });
