@@ -61,7 +61,7 @@ extractICSS(css);
 By default both the pseudo and at-rule form of the import and export statements
 will be removed. Pass the `mode` option to limit to only one type.
 
-## createICSSRules(icssImports, icssExports, asAtRule = false)
+## createICSSRules(icssImports, icssExports, mode = 'rule')
 
 Converts icss imports and exports definitions to postcss ast
 
@@ -82,7 +82,7 @@ createICSSRules(
 ```
 
 By default it will create pseudo selector rules (`:import` and `:export`). Pass
-`true` for `asAtRule` to instead generate `@icss-import` and `@icss-export`, which
+`atrule` for `mode` to instead generate `@icss-import` and `@icss-export`, which
 may be more resilient to post processing by other tools.
 
 ## License

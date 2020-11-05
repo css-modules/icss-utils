@@ -59,9 +59,9 @@ const createExports = (exports, postcss, mode = "rule") => {
   return [rule];
 };
 
-const createICSSRules = (imports, exports, postcss, asAtRule) => [
-  ...createImports(imports, postcss, asAtRule),
-  ...createExports(exports, postcss, asAtRule),
+const createICSSRules = (imports, exports, postcss, mode) => [
+  ...createImports(imports, postcss, mode),
+  ...createExports(exports, postcss, mode),
 ];
 
 module.exports = createICSSRules;
