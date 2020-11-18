@@ -58,7 +58,7 @@ const extractICSS = (css, removeRules = true, mode = "auto") => {
 
     if (node.type === "atrule" && mode !== "rule") {
       if (node.name === "icss-import") {
-        const matches = balancedQuotes.exec(node.params.trim());
+        const matches = balancedQuotes.exec(node.params);
 
         if (matches) {
           addImports(node, matches[1]);
