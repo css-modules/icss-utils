@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [5.1.0] - 2020-11-19
+
+### Features
+
+- feat: support at-rule versions of `import`/`export`
+
 ## [5.0.0] - 2020-10-12
 
 ### BREAKING CHANGE
