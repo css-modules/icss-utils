@@ -1,4 +1,5 @@
 const importPattern = /^:import\(("[^"]*"|'[^']*'|[^"']+)\)$/;
+const balancedQuotes = /^("[^"]*"|'[^']*'|[^"']+)$/;
 
 const getDeclsObject = (rule) => {
   const object = {};
@@ -11,36 +12,60 @@ const getDeclsObject = (rule) => {
 
   return object;
 };
-
-const extractICSS = (css, removeRules = true) => {
+/**
+ *
+ * @param {string} css
+ * @param {boolean} removeRules
+ * @param {auto|rule|atrule} mode
+ */
+const extractICSS = (css, removeRules = true, mode = "auto") => {
   const icssImports = {};
   const icssExports = {};
 
+  function addImports(node, path) {
+    const unquoted = path.replace(/'|"/g, "");
+    icssImports[unquoted] = Object.assign(
+      icssImports[unquoted] || {},
+      getDeclsObject(node)
+    );
+
+    if (removeRules) {
+      node.remove();
+    }
+  }
+
+  function addExports(node) {
+    Object.assign(icssExports, getDeclsObject(node));
+    if (removeRules) {
+      node.remove();
+    }
+  }
+
   css.each((node) => {
-    if (node.type === "rule") {
+    if (node.type === "rule" && mode !== "atrule") {
       if (node.selector.slice(0, 7) === ":import") {
         const matches = importPattern.exec(node.selector);
 
         if (matches) {
-          const path = matches[1].replace(/'|"/g, "");
-
-          icssImports[path] = Object.assign(
-            icssImports[path] || {},
-            getDeclsObject(node)
-          );
-
-          if (removeRules) {
-            node.remove();
-          }
+          addImports(node, matches[1]);
         }
       }
 
       if (node.selector === ":export") {
-        Object.assign(icssExports, getDeclsObject(node));
+        addExports(node);
+      }
+    }
 
-        if (removeRules) {
-          node.remove();
+    if (node.type === "atrule" && mode !== "rule") {
+      if (node.name === "icss-import") {
+        const matches = balancedQuotes.exec(node.params);
+
+        if (matches) {
+          addImports(node, matches[1]);
         }
+      }
+      if (node.name === "icss-export") {
+        addExports(node);
       }
     }
   });
