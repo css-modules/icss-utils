@@ -16,7 +16,7 @@ const getDeclsObject = (rule) => {
  *
  * @param {string} css
  * @param {boolean} removeRules
- * @param {auto|rule|atrule} mode
+ * @param {'auto' | 'rule' | 'at-rule'} mode
  */
 const extractICSS = (css, removeRules = true, mode = "auto") => {
   const icssImports = {};
@@ -42,7 +42,7 @@ const extractICSS = (css, removeRules = true, mode = "auto") => {
   }
 
   css.each((node) => {
-    if (node.type === "rule" && mode !== "atrule") {
+    if (node.type === "rule" && mode !== "at-rule") {
       if (node.selector.slice(0, 7) === ":import") {
         const matches = importPattern.exec(node.selector);
 

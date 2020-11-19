@@ -170,7 +170,7 @@ test("not process at-rules when mode is pseudo", () => {
   });
 });
 
-test("not process at-rules when mode is atrule", () => {
+test("not process at-rules when mode is 'at-rule'", () => {
   expect(
     runExtract(
       `
@@ -181,7 +181,7 @@ test("not process at-rules when mode is atrule", () => {
         @icss-export { d: d}
 
       `,
-      "atrule"
+      "at-rule"
     )
   ).toEqual({
     icssImports: {

@@ -82,7 +82,7 @@ createICSSRules(
 ```
 
 By default it will create pseudo selector rules (`:import` and `:export`). Pass
-`atrule` for `mode` to instead generate `@icss-import` and `@icss-export`, which
+`at-rule` for `mode` to instead generate `@icss-import` and `@icss-export`, which
 may be more resilient to post processing by other tools.
 
 ## License

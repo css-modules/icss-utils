@@ -66,7 +66,7 @@ test("create empty @icss-import statement", () => {
         "path/file": {},
       },
       {},
-      "atrule"
+      "at-rule"
     )
   ).toEqual("@icss-import 'path/file'");
 });
@@ -80,7 +80,7 @@ test("create @icss-import statement", () => {
         },
       },
       {},
-      "atrule"
+      "at-rule"
     )
   ).toEqual("@icss-import 'path/file' {\n  e: f\n}");
 });
@@ -93,7 +93,7 @@ test("create @icss-export statement", () => {
         a: "b",
         c: "d",
       },
-      "atrule"
+      "at-rule"
     )
   ).toEqual("@icss-export {\n  a: b;\n  c: d\n}");
 });
@@ -109,7 +109,7 @@ test("create @icss-import and @icss-export", () => {
       {
         c: "d",
       },
-      "atrule"
+      "at-rule"
     )
   ).toEqual("@icss-import 'colors' {\n  a: b\n}\n@icss-export {\n  c: d\n}");
 });
